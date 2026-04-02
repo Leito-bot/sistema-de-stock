@@ -38,5 +38,5 @@ Las funcionalidades disponibles permiten:
 ● Eliminación de productos
 ● Persistencia de datos en la base SQLite `stock.db`.
 ● Manejo de errores y entradas inválidas para una mejor experiencia de uso.
-● Se implemento dejar registrada la fecha y la hora en la cual se realiza cada carga de un producto
+● Se implemento dejar registrada la fecha y la hora en la cual se realiza cada carga de un producto, teniendo un mejor registro y seguridad del stock.
 
