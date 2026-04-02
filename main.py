@@ -5,6 +5,8 @@
 
 import crud
 from colorama import Fore, Back, Style, init
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 while True:
     try:
         # Llamo a la funcion

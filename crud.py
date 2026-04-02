@@ -2,6 +2,7 @@ import sqlite3
 import os
 import time
 from colorama import Fore, Back, Style, init
+from datetime import datetime
 #=====================================================================================================================================================================================
 
 #Funcion para limpiar la pantalla
@@ -45,20 +46,22 @@ def registro_de_productos():
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL UNIQUE,
                     categoria TEXT NOT NULL,
-                    precio REAL NOT NULL
+                    precio REAL NOT NULL,
+                    fecha_Carga TEXT NOT NULL
                 )
             ''')
 
             #ingreso de datos por el usuario
             nombre = input("Nombre del producto: ").strip().lower()
             categoria =  input("Categoria del producto: ").strip()
-            precio = float(input("Precio del producto: $").strip().lower())
+            precio = float(input("Precio del producto: $").strip())
+            fecha_Carga = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             #Inserto los valores agregados por el usuario a mi DB stock
             cursor.execute('''
-            INSERT INTO stock (nombre, categoria, precio)
-            VALUES (?, ?, ? )
-            ''', (nombre, categoria, precio))
+            INSERT INTO stock (nombre, categoria, precio, fecha_Carga)
+            VALUES (?, ?, ?, ?)
+            ''', (nombre, categoria, precio, fecha_Carga))
 
             # Confirma los cambios
             conexion.commit()
@@ -103,12 +106,12 @@ def mostrar_productos():
 
         #Si no hay productos cargados entra al IF y muestra vacio con un - en cada columna
         if not productos:
-            print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}" + Style.RESET_ALL)
-            print(f"{'-':<5}{'-':<25}{'-':<30}{'-':<10}")
+            print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}{'FECHA CARGADA':<15}" + Style.RESET_ALL)
+            print(f"{'-':<5}{'-':<25}{'-':<30}{'-':<10}{'-':<15}")
         else:#Si hay productos entra al ELSE y muestra todos los productos
-            print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}" + Style.RESET_ALL)
+            print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}{'FECHA CARGADA':<15}" + Style.RESET_ALL)
             for producto in productos:
-                print(f"{producto[0]:<5}{producto[1]:<25}{producto[2]:<30}${producto[3]:<10}")
+                print(f"{producto[0]:<5}{producto[1]:<25}{producto[2]:<30}${producto[3]:<10}{producto[4]:<15}")
 
         # Confirma los cambios
         conexion.commit()
@@ -149,9 +152,9 @@ def buscar_productos():
         cursor.execute("SELECT id, nombre, categoria, precio FROM stock ORDER BY nombre ASC")
         productos_disponibles = cursor.fetchall()
 
-        print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}" + Style.RESET_ALL)
+        print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}{'FECHA CARGADA':<15}" + Style.RESET_ALL)
         for producto in productos_disponibles:
-            print(f"{producto[0]:<5}{producto[1]:<25}{producto[2]:<30}${producto[3]:<10}")
+            print(f"{producto[0]:<5}{producto[1]:<25}{producto[2]:<30}${producto[3]:<10}{producto[4]:<15}")
 
         # Menú de busqueda
         while True:
@@ -176,8 +179,8 @@ def buscar_productos():
                     print(Fore.YELLOW + f"\n No se encontró ningún artículo con el ID → {id_buscado}\n" + Style.RESET_ALL)
                 else:
                     print("\n✅ Producto encontrado:")
-                    print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}" + Style.RESET_ALL)
-                    print(f"{producto[0]:<5}{producto[1]:<25}{producto[2]:<30}${producto[3]:<10}")
+                    print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}{'FECHA CARGADA':<15}" + Style.RESET_ALL)
+                    print(f"{producto[0]:<5}{producto[1]:<25}{producto[2]:<30}${producto[3]:<10}{producto[4]:<15}")
 
                 # Preguntar si desea buscar otro producto o salir
                 while True:
@@ -224,8 +227,8 @@ def eliminar_productos():
 
             # Validar si hay productos
             if not productos:
-                print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}" + Style.RESET_ALL)
-                print(f"{'-':<5}{'-':<25}{'-':<30}{'-':<10}")
+                print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}{'FECHA CARGADA':<15}" + Style.RESET_ALL)
+                print(f"{'-':<5}{'-':<25}{'-':<30}{'-':<10}{'-':<15}")
                 print(Fore.YELLOW + "\n No hay productos cargados en el sistema.\n" + Style.RESET_ALL)
                 
                 while True:
@@ -239,9 +242,9 @@ def eliminar_productos():
                 continue
 
             # Mostrar productos disponibles
-            print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}" + Style.RESET_ALL)
+            print(Fore.YELLOW + f"{'ID':<5}{'NOMBRE':<25}{'CATEGORIA':<30}{'PRECIO':<10}{'FECHA CARGADA':<15}" + Style.RESET_ALL)
             for listado in productos:
-                print(f"{listado[0]:<5}{listado[1]:<25}{listado[2]:<30}${listado[3]:<10}")
+                print(f"{listado[0]:<5}{listado[1]:<25}{listado[2]:<30}${listado[3]:<10}{listado[4]:<15}")
 
             # Mostrar menú de eliminación
             print(Fore.CYAN + "\n=== ELIMINAR PRODUCTOS ===\n" + Style.RESET_ALL)
