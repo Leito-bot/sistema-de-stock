@@ -11,6 +11,7 @@ Las funcionalidades disponibles permiten:
 ✔ Visualizar todos los productos registrados
 ✔ Buscar productos por su ID (Numero Unico)
 ✔ Eliminar productos del sistema
+✔ Fecha y hora de carga de cada producto
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -37,4 +38,5 @@ Las funcionalidades disponibles permiten:
 ● Eliminación de productos
 ● Persistencia de datos en la base SQLite `stock.db`.
 ● Manejo de errores y entradas inválidas para una mejor experiencia de uso.
+● Se implemento dejar registrada la fecha y la hora en la cual se realiza cada carga de un producto
 
